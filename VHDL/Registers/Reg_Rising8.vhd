@@ -14,48 +14,47 @@
 --
 -- Description:
 --      Code was modified from Presenation Code: Dr.Fortier(c)
---      24 bit register
 --
 -- Notes:
---      Clock on FALLING EDGE
+--      Clocked on RISING EDGE
 --
 -- Revision: 
 --      0.01  - File Created
 --      0.02  - Cleaned up Code given
 --      0.03  - Incorporated a enable switch
---      0.04  - Have the register latch data on the falling 
+--      0.04  - Have the register latch data on the rising 
 --              clock cycle.
 --
 -- Additional Comments: 
---      The register latches it's data on the FALLING edge
+--      The register latches it's data on the RISING edge
 -- 
 -----------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 USE work.UMDRISC_pkg.ALL;
 
-ENTITY RegF IS
+ENTITY RegR8 IS
 
 	PORT(
 		Clock	: IN 	STD_LOGIC;
 		Resetn	: IN	STD_LOGIC;
 		ENABLE	: IN	STD_LOGIC;
-		INPUT	: IN	STD_LOGIC_VECTOR(DATA_WIDTH-1 DOWNTO 0);
-		OUTPUT	: OUT 	STD_LOGIC_VECTOR(DATA_WIDTH-1 DOWNTO 0) 
+		INPUT	: IN	STD_LOGIC_VECTOR(MEM_WIDTH-1 DOWNTO 0);
+		OUTPUT	: OUT 	STD_LOGIC_VECTOR(MEM_WIDTH-1 DOWNTO 0) 
 	);
 
-END RegF;
+END RegR8;
 
-ARCHITECTURE Behavior OF RegF IS	
+ARCHITECTURE Behavior OF RegR8 IS	
 
 BEGIN
 
-	PROCESS(Resetn, Clock)
+	PROCESS(Resetn, Clock,ENABLE)
 	BEGIN
 		IF Resetn = '0' THEN
 			OUTPUT <= (OTHERS => '0');
 		ELSIF ENABLE = '1' THEN
-			IF Clock'EVENT AND Clock = '0' THEN
+			IF Clock'EVENT AND Clock = '1' THEN
 				OUTPUT <= INPUT;
 			END IF;
 		END IF;

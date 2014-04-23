@@ -1,4 +1,22 @@
 ------------------------------------------------------------
+-- School:     University of Massachusetts Dartmouth      --
+-- Department: Computer and Electrical Engineering        --
+-- Class:      ECE 368 Digital Design                     --
+-- Engineer:   Daniel Noyes                               --
+--             Massarrah Tannous                          --
+------------------------------------------------------------
+--
+-- Create Date:    Spring 2014
+-- Module Name:    24bit_Register
+-- Project Name:   UMD-RISC 24
+-- Target Devices: Spartan-3E
+-- Tool versions:  Xilinx ISE 14.7
+--
+-- Description:
+--      Code was modified from Presenation Code: Dr.Fortier(c)
+--      24 bit register with a hold lock the input state just
+--        incase input conflict later
+--
 -- Notes:
 --      HOLD Clocked on FALLING EDGE
 --		OUTPUT Clocked on rising EDGE
@@ -41,7 +59,7 @@ SIGNAL HOLD : STD_LOGIC_VECTOR(DATA_WIDTH-1 DOWNTO 0) := (OTHERS => '0');
 
 BEGIN
 
-	PROCESS(Resetn, Clock)
+	PROCESS(Resetn, Clock,ENABLE)
 	BEGIN
 		IF Resetn = '0' THEN
 			HOLD <= (OTHERS => '0');

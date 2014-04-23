@@ -7,17 +7,19 @@
 ------------------------------------------------------------
 --
 -- Create Date:    Spring 2014
--- Module Name:    RegF
+-- Module Name:    24bit_Register
 -- Project Name:   UMD-RISC 24
 -- Target Devices: Spartan-3E
 -- Tool versions:  Xilinx ISE 14.7
 --
 -- Description:
 --      Code was modified from Presenation Code: Dr.Fortier(c)
---      24 bit register
+--      24 bit register with a hold lock the input state just
+--        incase input conflict later
 --
 -- Notes:
---      Clock on FALLING EDGE
+--      HOLD Clocked on FALLING EDGE
+--		OUTPUT Clocked on rising EDGE
 --
 -- Revision: 
 --      0.01  - File Created
@@ -25,38 +27,50 @@
 --      0.03  - Incorporated a enable switch
 --      0.04  - Have the register latch data on the falling 
 --              clock cycle.
+--      0.05  - Forked and added a input hold for the register
+--      0.06  - Forked and used as a PC register
 --
 -- Additional Comments: 
---      The register latches it's data on the FALLING edge
+--      The register latches it's output data on the Rising edge
+--      Hold latch on the falling edge
+--      The main reason why I included a hold latch was to Prevent
+--          Any register transfer faults that could occur.
+--          Mostly acts as a safety buffer.
 -- 
 -----------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 USE work.UMDRISC_pkg.ALL;
 
-ENTITY RegF IS
+ENTITY PC_RegHold_F IS
 
 	PORT(
 		Clock	: IN 	STD_LOGIC;
 		Resetn	: IN	STD_LOGIC;
 		ENABLE	: IN	STD_LOGIC;
-		INPUT	: IN	STD_LOGIC_VECTOR(DATA_WIDTH-1 DOWNTO 0);
-		OUTPUT	: OUT 	STD_LOGIC_VECTOR(DATA_WIDTH-1 DOWNTO 0) 
+		INPUT	: IN	STD_LOGIC_VECTOR(PC_WIDTH-1 DOWNTO 0);
+		OUTPUT	: OUT 	STD_LOGIC_VECTOR(PC_WIDTH-1 DOWNTO 0)
 	);
 
-END RegF;
+END PC_RegHold_F;
 
-ARCHITECTURE Behavior OF RegF IS	
+ARCHITECTURE Behavior OF PC_RegHold_F IS
+
+SIGNAL HOLD : STD_LOGIC_VECTOR(PC_WIDTH-1 DOWNTO 0) := (OTHERS => '0');
 
 BEGIN
 
 	PROCESS(Resetn, Clock)
 	BEGIN
 		IF Resetn = '0' THEN
+			HOLD <= (OTHERS => '0');
 			OUTPUT <= (OTHERS => '0');
 		ELSIF ENABLE = '1' THEN
+			IF Clock'EVENT AND Clock = '1' THEN
+					OUTPUT <= HOLD;
+			END IF;
 			IF Clock'EVENT AND Clock = '0' THEN
-				OUTPUT <= INPUT;
+					HOLD <= INPUT;
 			END IF;
 		END IF;
 	END PROCESS;

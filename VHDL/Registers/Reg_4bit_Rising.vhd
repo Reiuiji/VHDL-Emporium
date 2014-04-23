@@ -1,4 +1,20 @@
 ------------------------------------------------------------
+-- School:     University of Massachusetts Dartmouth      --
+-- Department: Computer and Electrical Engineering        --
+-- Class:      ECE 368 Digital Design                     --
+-- Engineer:   Daniel Noyes                               --
+--             Massarrah Tannous                          --
+------------------------------------------------------------
+--
+-- Create Date:    Spring 2014
+-- Module Name:    RegF
+-- Project Name:   UMD-RISC 24
+-- Target Devices: Spartan-3E
+-- Tool versions:  Xilinx ISE 14.7
+--
+-- Description:
+--      Code was modified from Presenation Code: Dr.Fortier(c)
+--
 -- Notes:
 --      Clocked on RISING EDGE
 --
