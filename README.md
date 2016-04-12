@@ -7,4 +7,6 @@ Mostly From a Class (ECE 368: digital design)
 
 ECE 368 (c) Paul F. University of Massachusetts Dartmouth
 
+### license
 
+The material presented are available under the MIT License.
