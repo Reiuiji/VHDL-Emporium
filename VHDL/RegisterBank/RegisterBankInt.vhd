@@ -72,7 +72,7 @@ RBI <= IntRegArray(to_integer(unsigned(RegB_Sel)));
           RegArray(to_integer(unsigned(RegIN_Sel))) <= RegIN;
         end if;
         IntRegArray <= (OTHERS => (OTHERS => '0'));
-        else
+      else
         if (RegIN_WE = '1') then
           IntRegArray(to_integer(unsigned(RegIN_Sel))) <= RegIN;
         end if;
